@@ -43,7 +43,7 @@ def MAP_assign_clusters_stm(X, M, omega):
 
 def retrieve_tensors_stm(X):
     """
-    Returns a the three tensors M1, M2 and M3 to be used
+    Returns the three tensors M1, M2 and M3 to be used
     to learn the Single Topic Model
     @param X: a bag-of-words documents distributed
         as a Single Topic Model, with n rows an d columns;
@@ -118,7 +118,7 @@ def projsplx(y):
 def TestFunction(a,c1,c2,c3,c4,c5):
     """
     Implements function F(a) of Theorem 3.3 to efficiently perform
-    simultaneous diagonalization when l=
+    simultaneous diagonalization when l=2
     @param a: the independent variable of the function
     @params c1,c2,c3,c4,c5: the parameters of the function
     """
