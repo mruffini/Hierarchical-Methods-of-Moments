@@ -177,13 +177,12 @@ def SIDIWO_grid(M1,M2,M3):
     O = np.array([[np.sqrt(1 - a ** 2), a], [-a, np.sqrt(1 - a ** 2)]])
 
     # Solves system at iteration 4 of Algorithm 1 to find the parameters of the model
-    M =  E.dot(O)
-    M = M/np.sign(M.sum(0))
+    M = E.dot(O)
+    M = M / np.sign(M.sum(0))
 
-    omega =  (np.linalg.pinv(M).dot(M1))
+    omega = np.linalg.pinv(M).dot(M1)
+    omega = projsplx(omega)
 
-    M = M.dot(np.diag(1/omega))
-    omega = omega**2/(omega**2).sum()
 
     return M, omega
 
@@ -305,10 +304,8 @@ def SIDIWO_lowrank_single_topic_model_fast(X):
     M = E.dot(O)
     M = M / np.sign(M.sum(0))
 
-    omega = (np.linalg.pinv(M).dot(M1))
-
-    M = M.dot(np.diag(1 / omega))
-    omega = omega ** 2 / (omega ** 2).sum()
+    omega = np.linalg.pinv(M).dot(M1)
+    omega = projsplx(omega)
 
     return M, omega
 
