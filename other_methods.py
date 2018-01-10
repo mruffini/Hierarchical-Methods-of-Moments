@@ -118,7 +118,6 @@ def RobustTPM(T,k,L=25, N=20):
     return Theta, Lambda, T - skt.ktensor([Theta.T, Theta.T, Theta.T]).totensor() * Lambda
 
 
-
 # Whitened ALS
 def learn_ALS(M1, M2, M3, k, L=25, N=20):
     """
@@ -150,34 +149,3 @@ def learn_ALS(M1, M2, M3, k, L=25, N=20):
     return M, omega
 
 
-def RobustTPM(T,k,L=25, N=20):
-    """
-    Algorithm 1 from   "Tensor Decompositions for Learning Latent Variable Models"
-    @param T: symmetric tensor
-    @param k: the number of latent states
-    @param L,N: number of iterations
-    """
-    Thetas = []
-
-    for tau in range(L):
-
-        Theta = np.random.rand(1, k)
-        Theta = Theta / np.linalg.norm(Theta)
-
-        for t in range(N):
-            Theta = T.ttm([Theta, Theta], [1, 2]).reshape(1, k)
-            Theta = Theta / np.linalg.norm(Theta)
-
-        Thetas.append(Theta)
-
-    ThetaFinal_idx = np.argmax([T.ttm([theta, theta, theta], [0, 1, 2]) for theta in Thetas])
-
-    Theta = Thetas[ThetaFinal_idx]
-
-    for t in range(N):
-        Theta = T.ttm([Theta, Theta], [1, 2]).reshape(1, k)
-        Theta = Theta / np.linalg.norm(Theta)
-
-    Lambda = T.ttm([Theta, Theta, Theta], [0, 1, 2]).squeeze()
-
-    return Theta, Lambda, T - skt.ktensor([Theta.T, Theta.T, Theta.T]).totensor() * Lambda
